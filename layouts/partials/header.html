@@ -8,9 +8,9 @@
     {{ partial "favicon.html" . }}
     <title>{{ .Title }}</title>
 
-    {{ if .Site.Params.cdn  }}
+    {{ if .Site.Params.cdn.enable  }}
     <link rel="stylesheet"
-      href='https://res.cloudinary.com/imroc/raw/upload/v1583397431/kubernetes-practice-guide/css/bundle.min.c8a2096bb127ebeb7c0a33c436403eb0f8b2f7dbdbb4048628418642a04925f1.css'>
+      href='{{ .Site.Params.cdn.css }}'>
     {{ else }}
     <!-- CSS from hugo pipes -->
     {{- partial "css-assets.html" . -}}
