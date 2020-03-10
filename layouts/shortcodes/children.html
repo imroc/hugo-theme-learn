@@ -47,12 +47,20 @@
 					{{$numn := add $num $.count }}
 
 {{(printf "<h%d>" $numn)|safeHTML}}
+{{ if eq .Params.state "TODO" }}
+{{ .Title }}
+{{else}}
 <a href="{{.RelPermalink}}" >{{ .Title }}</a>
+{{end}}
 {{(printf "</h%d>" $numn)|safeHTML}}
 
 				{{else}}
 {{(printf "<%s>" $.style)|safeHTML}}
+{{ if eq .Params.state "TODO" }}
+{{ .Title }}
+{{else}}
 <a href="{{.RelPermalink}}" >{{ .Title }}</a>
+{{end}}
 {{(printf "</%s>" $.style)|safeHTML}}
 				{{end}}
 
