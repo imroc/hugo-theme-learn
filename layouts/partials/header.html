@@ -8,6 +8,18 @@
     {{ partial "favicon.html" . }}
     <title>{{ .Title }}</title>
 
+    <script>
+      window.algoliaAppID='{{ .Site.Params.algolia.appID }}';
+      window.algoliaKey='{{ .Site.Params.algolia.key }}';
+      window.algoliaIndex='{{ .Site.Params.algolia.index }}';
+    </script>
+    {{ if .Site.Params.cdn.enable  }}
+    <script src='{{ .Site.Params.cdn.js }}'></script>
+    {{ else }}
+    <!-- JS from hugo pipes -->
+    {{- partial "js-assets.html" . -}}
+    <script src='{{ .Scratch.Get "appjs" }}' integrity='{{ .Scratch.Get "appjsintegrity" }}'></script>
+    {{ end }}
     {{ if .Site.Params.cdn.enable  }}
     <link rel="stylesheet"
       href='{{ .Site.Params.cdn.css }}'>
@@ -99,4 +111,3 @@
             {{.value|safeHTML}}
           {{end}}
         {{end}}
-

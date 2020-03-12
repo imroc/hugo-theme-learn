@@ -1,4 +1,3 @@
-
 <!-- Core JS -->
 {{- $algoliasearchjs := resources.Get "js/10-algoliasearch.min.js" -}}
 {{- $autocompletejs := resources.Get "js/11-autocomplete.min.js" -}}
@@ -13,14 +12,13 @@
 {{- $mermaidjs := resources.Get "js/09-mermaid.js" -}}
 {{- $learnjs := resources.Get "js/12-learn.js" -}}
 {{- $rewardjs := resources.Get "js/13-reward.js" -}}
+{{- $jqueryuijs := resources.Get "js/14-jquery-ui.min.js" -}}
 
 
 {{- $indexScratch := newScratch -}}
-{{- $indexScratch.Add "jsassets" (slice $jqueryjs $algoliasearchjs $autocompletejs $clipboardjs $featherlightjs $highlightjs $jquerystickyjs $modernizrjs $perfectscrollbarjqueryjs $perfectscrollbarjs $mermaidjs $learnjs $rewardjs) -}}
+{{- $indexScratch.Add "jsassets" (slice $jqueryjs $algoliasearchjs $autocompletejs $clipboardjs $featherlightjs $highlightjs $jquerystickyjs $modernizrjs $perfectscrollbarjqueryjs $perfectscrollbarjs $mermaidjs $learnjs $rewardjs $jqueryuijs) -}}
 
 <!-- Bundle js -->
 {{- $appjs := $indexScratch.Get "jsassets" | resources.Concat "js/bundle.js" | resources.Minify | resources.Fingerprint -}}
 {{- .Scratch.Set "appjs" $appjs.RelPermalink -}}
 {{- .Scratch.Set "appjsintegrity" $appjs.Data.Integrity -}}
-
-

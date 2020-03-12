@@ -62,18 +62,6 @@
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
 
-    <script>
-      window.algoliaAppID='{{ .Site.Params.algolia.appID }}';
-      window.algoliaKey='{{ .Site.Params.algolia.key }}';
-      window.algoliaIndex='{{ .Site.Params.algolia.index }}';
-    </script>
-    {{ if .Site.Params.cdn.enable  }}
-    <script src='{{ .Site.Params.cdn.js }}'></script>
-    {{ else }}
-    <!-- JS from hugo pipes -->
-    {{- partial "js-assets.html" . -}}
-    <script src='{{ .Scratch.Get "appjs" }}' integrity='{{ .Scratch.Get "appjsintegrity" }}'></script>
-    {{ end }}
     {{ partial "custom-footer.html" . }}
   </body>
 </html>
