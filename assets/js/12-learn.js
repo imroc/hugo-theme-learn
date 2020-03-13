@@ -1,6 +1,6 @@
 function initFeatherlight(){
     // Get Parameters from some url
-    var getUrlParameter = function getUrlParameter(sPageURL) {
+    var getUrlParameter = function(sPageURL) {
         var url = sPageURL.split('?');
         var obj = {};
         if (url.length == 2) {
@@ -23,9 +23,11 @@ function initFeatherlight(){
     images.wrap(function () {
         var image = $(this);
         var o = getUrlParameter(image[0].src);
-        var f = o['featherlight'];
-        // IF featherlight is false, do not use feather light
-        if (f != 'false') {
+        var enable = false;
+        if (typeof o == "undefined" || o['featherlight'] != 'false') {
+            enable = true
+        }
+        if (enable) {
             if (!image.parent("a").length) {
                 return "<a href='" + image[0].src + "' data-featherlight='image'></a>";
             }
@@ -151,7 +153,6 @@ $(window).resize(function () {
 
 jQuery(document).ready(function () {
 
-    initFeatherlight()
 
     jQuery('#sidebar .category-icon').on('click', function () {
         $(this).toggleClass("fa-angle-down fa-angle-right");
@@ -516,6 +517,9 @@ jQuery(window).on('load', function () {
     $(".highlightable").highlight(sessionStorage.getItem('search-value'), {
         element: 'mark'
     });
+
+    initFeatherlight();
+
 });
 
 $(function () {
