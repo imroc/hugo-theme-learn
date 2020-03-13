@@ -1,3 +1,69 @@
+function initFeatherlight(){
+    // Get Parameters from some url
+    var getUrlParameter = function getUrlParameter(sPageURL) {
+        var url = sPageURL.split('?');
+        var obj = {};
+        if (url.length == 2) {
+            var sURLVariables = url[1].split('&'),
+                sParameterName,
+                i;
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+                obj[sParameterName[0]] = sParameterName[1];
+            }
+            return obj;
+        } else {
+            return undefined;
+        }
+    };
+
+    // Execute actions on images generated from Markdown pages
+    var images = $("div#body-inner img").not(".inline");
+    // Wrap image inside a featherlight (to get a full size view in a popup)
+    images.wrap(function () {
+        var image = $(this);
+        var o = getUrlParameter(image[0].src);
+        var f = o['featherlight'];
+        // IF featherlight is false, do not use feather light
+        if (f != 'false') {
+            if (!image.parent("a").length) {
+                return "<a href='" + image[0].src + "' data-featherlight='image'></a>";
+            }
+        }
+    });
+
+    // Change styles, depending on parameters set to the image
+    images.each(function (index) {
+        var image = $(this)
+        var o = getUrlParameter(image[0].src);
+        if (typeof o !== "undefined") {
+            var h = o["height"];
+            var w = o["width"];
+            var c = o["classes"];
+            image.css("width", function () {
+                if (typeof w !== "undefined") {
+                    return w;
+                } else {
+                    return "auto";
+                }
+            });
+            image.css("height", function () {
+                if (typeof h !== "undefined") {
+                    return h;
+                } else {
+                    return "auto";
+                }
+            });
+            if (typeof c !== "undefined") {
+                var classes = c.split(',');
+                for (i = 0; i < classes.length; i++) {
+                    image.addClass(classes[i]);
+                }
+            }
+        }
+    });
+}
+
 // Scrollbar Width function
 function getScrollBarWidth() {
     var inner = document.createElement('p');
@@ -84,6 +150,9 @@ $(window).resize(function () {
 
 
 jQuery(document).ready(function () {
+
+    initFeatherlight()
+
     jQuery('#sidebar .category-icon').on('click', function () {
         $(this).toggleClass("fa-angle-down fa-angle-right");
         $(this).parent().parent().children('ul').toggle();
@@ -416,7 +485,6 @@ jQuery(document).ready(function () {
 });
 
 jQuery(window).on('load', function () {
-
     function adjustForScrollbar() {
         if ((parseInt(jQuery('#body-inner').height()) + 83) >= jQuery('#body').height()) {
             jQuery('.nav.nav-next').css({
@@ -532,68 +600,3 @@ jQuery.fn.highlight = function (words, options) {
         jQuery.highlight(this, re, settings.element, settings.className);
     });
 };
-
-
-// Get Parameters from some url
-var getUrlParameter = function getUrlParameter(sPageURL) {
-    var url = sPageURL.split('?');
-    var obj = {};
-    if (url.length == 2) {
-        var sURLVariables = url[1].split('&'),
-            sParameterName,
-            i;
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
-            obj[sParameterName[0]] = sParameterName[1];
-        }
-        return obj;
-    } else {
-        return undefined;
-    }
-};
-
-// Execute actions on images generated from Markdown pages
-var images = $("div#body-inner img").not(".inline");
-// Wrap image inside a featherlight (to get a full size view in a popup)
-images.wrap(function () {
-    var image = $(this);
-    var o = getUrlParameter(image[0].src);
-    var f = o['featherlight'];
-    // IF featherlight is false, do not use feather light
-    if (f != 'false') {
-        if (!image.parent("a").length) {
-            return "<a href='" + image[0].src + "' data-featherlight='image'></a>";
-        }
-    }
-});
-
-// Change styles, depending on parameters set to the image
-images.each(function (index) {
-    var image = $(this)
-    var o = getUrlParameter(image[0].src);
-    if (typeof o !== "undefined") {
-        var h = o["height"];
-        var w = o["width"];
-        var c = o["classes"];
-        image.css("width", function () {
-            if (typeof w !== "undefined") {
-                return w;
-            } else {
-                return "auto";
-            }
-        });
-        image.css("height", function () {
-            if (typeof h !== "undefined") {
-                return h;
-            } else {
-                return "auto";
-            }
-        });
-        if (typeof c !== "undefined") {
-            var classes = c.split(',');
-            for (i = 0; i < classes.length; i++) {
-                image.addClass(classes[i]);
-            }
-        }
-    }
-});
