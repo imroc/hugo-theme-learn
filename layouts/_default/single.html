@@ -9,10 +9,12 @@
 {{ .Content }}
 
 <footer class="footline">
-	{{with .Params.LastModifierDisplayName}}
-	    <i class='fas fa-user'></i> <a href="{{ $.Params.LastModifierURL }}">{{ . }}</a> {{with $.Date}} <i class='fas fa-calendar'></i> {{ .Format "2006-01-02" }}{{end}}
-	    </div>
-	{{end}}
+	{{ $modifierDisplayName := default .Site.Params.DefaultModifierDisplayName .Params.LastModifierDisplayName }}
+	{{ $modifierURL := default .Site.Params.DefaultModifierURL .Params.LastModifierURL }}
+	{{with $modifierDisplayName }}
+	<i class='fas fa-user'></i> <a href="{{ $modifierURL }}">{{ . }}</a>
+    {{end}}
+	{{with $.Date}} <i class='fas fa-calendar'></i> {{ .Format "2006-01-02" }}{{end}}
 </footer>
 
 {{ partial "footer.html" . }}
